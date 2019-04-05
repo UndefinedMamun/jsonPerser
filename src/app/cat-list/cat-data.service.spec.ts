@@ -1,3 +1,4 @@
+import { Status } from "./../common/status.enum";
 import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { TestBed } from "@angular/core/testing";
 
@@ -38,7 +39,7 @@ describe("CatDataService", () => {
       },
       err => {
         // console.log(err);
-        expect(err.status).toBe(404);
+        expect(err.status).toBe(Status.notFound);
         done();
       }
     );

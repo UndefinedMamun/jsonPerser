@@ -1,3 +1,6 @@
+import { BadInput } from "./../common/error-handlers/bad-input";
+import { NotFoundError } from "./../common/error-handlers/not-found-error";
+import { DataModel } from "./data.model";
 import { CatDataService } from "./cat-data.service";
 import { Component, OnInit } from "@angular/core";
 
@@ -9,20 +12,25 @@ import { Component, OnInit } from "@angular/core";
 export class CatListComponent implements OnInit {
   constructor(private service: CatDataService) {}
 
-  data: Array<any>;
+  data: Array<DataModel>;
+  error: String;
 
   ngOnInit() {
     this.service.getData().subscribe(
-      (res: Array<any>) => {
+      (res: Array<DataModel>) => {
         this.data = res;
         // console.log(this.data);
         this.filterCats();
         this.orderByAlpha();
       },
       err => {
-        // console.log(err);
-        if (err.status == 404) return alert("json Data not found!");
-        alert("something went wrong while fetching the json data!");
+        if (err instanceof NotFoundError) this.error = "Json Data Not Found!";
+        // else if (err instanceof BadInput) this.error = "Bad Input!";
+        else {
+          //500 and other errors
+          this.error = "An Unexpected error occured!";
+          throw err;
+        }
       }
     );
   }
