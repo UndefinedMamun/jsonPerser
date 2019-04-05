@@ -1,0 +1,8 @@
+<div *ngIf="data">
+  <div class="owner" *ngFor="let owner of data">
+    <strong>{{ owner.gender }}</strong>
+    <ul *ngIf="owner.pets">
+      <li *ngFor="let pet of owner.pets">{{ pet.name }}</li>
+    </ul>
+  </div>
+</div>
