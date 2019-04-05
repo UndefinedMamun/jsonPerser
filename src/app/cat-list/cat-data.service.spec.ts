@@ -16,23 +16,30 @@ describe("CatDataService", () => {
     expect(service).toBeTruthy();
   });
 
-  it("should get the json data", () => {
+  it("should get json data in correct format", async done => {
     const service: CatDataService = TestBed.get(CatDataService);
 
     service.getData().subscribe(res => {
-      expect(res).toBeTruthy();
+      (res as Array<any>).forEach(element => {
+        expect(
+          element.hasOwnProperty("gender") && element.hasOwnProperty("pets")
+        ).toEqual(true);
+      });
+      done();
     });
   });
 
-  it("should throw error if jsonDataUri is wrong.", () => {
+  it("should throw error if jsonDataUri is wrong.", async done => {
     const service: CatDataService = TestBed.get(CatDataService);
-    service.jsonDataUri = "false/uri";
+    service.jsonDataUri = "false/uri.json";
     service.getData().subscribe(
       res => {
         // expect(res).toBeTruthy();
       },
       err => {
-        expect(err).toBeTruthy();
+        // console.log(err);
+        expect(err.status).toBe(404);
+        done();
       }
     );
   });

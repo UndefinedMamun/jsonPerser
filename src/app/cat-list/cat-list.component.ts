@@ -15,12 +15,13 @@ export class CatListComponent implements OnInit {
     this.service.getData().subscribe(
       (res: Array<any>) => {
         this.data = res;
-        console.log(this.data);
+        // console.log(this.data);
         this.filterCats();
         this.orderByAlpha();
       },
       err => {
-        console.log(err);
+        // console.log(err);
+        if (err.status == 404) return alert("json Data not found!");
         alert("something went wrong while fetching the json data!");
       }
     );

@@ -101,7 +101,7 @@ describe("CatListComponent", () => {
     fixture.detectChanges();
 
     let des = fixture.debugElement.queryAll(By.css(".owner"));
-    console.log(des);
+    // console.log(des);
 
     expect(des.length).toBe(data.length);
   });
